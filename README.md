@@ -17,6 +17,6 @@ An unconventional use of an [automotive oxygen sensor](https://www.oreillyauto.c
 
 ## Partslist
 
-TODO: Need to choose a thermocouple...
+Thermocouple I was looking at: [https://www.amazon.com/dp/B074375LJR](https://www.amazon.com/dp/B074375LJR).
 
 [Digikey BOM](pcb/Digikey_Bom_8219274.csv)

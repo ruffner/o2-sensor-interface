@@ -1,0 +1,33 @@
+Partlist
+
+Exported from o2_sensor_interface.sch at 4/10/20 9:28 PM
+
+EAGLE Version 9.5.1 Copyright (c) 1988-2019 Autodesk, Inc.
+
+Assembly variant: 
+
+Part     Value          Device          Package               Library        Sheet
+
+12V                     3,17/1,3        3,17/1,3              wirepad        1
+BLACK                   3,17/1,3        3,17/1,3              wirepad        1
+C1       .1uF           C-US025-030X050 C025-030X050          adafruit       1
+C2       1uF            C-US025-030X050 C025-030X050          adafruit       1
+C5       10uF           CPOL-USE2-4     E2-4                  adafruit       1
+GND                     3,17/1,3        3,17/1,3              wirepad        1
+GREY                    3,17/1,3        3,17/1,3              wirepad        1
+IC1      MAX31855KASA+T MAX31855KASA+T  SOIC127P600X175-8N    MAX31855KASA_T 1
+JP1                     PINHD-1X14      1X14                  adafruit       1
+JP2                     PINHD-1X14      1X14                  adafruit       1
+R1       500k           R-US_0207/9     0207/9                adafruit       1
+R2       2k             R-US_0207/9     0207/9                adafruit       1
+R3       100            R-US_0207/9     0207/9                adafruit       1
+R4       1M             R-US_0207/9     0207/9                adafruit       1
+R5       2k             R-US_0207/9     0207/9                adafruit       1
+R6       100k           R-US_0207/9     0207/9                adafruit       1
+SERIAL                  MA03-1          MA03-1                con-lstb       1
+U1       IRLB8721PBF    IRLB8721PBF     PG-TO220-3            samdg          1
+U2       L7805CV        L7805CV         TO255P1040X460X1968-3 L7805CV        1
+U3       TLV2462CP      TLV2462CP       P8                    samdg          1
+WHITE1                  3,17/1,3        3,17/1,3              wirepad        1
+WHITE2                  3,17/1,3        3,17/1,3              wirepad        1
+X1       22-23-2021     22-23-2021      22-23-2021            con-molex      1

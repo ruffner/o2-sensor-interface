@@ -3,7 +3,7 @@
 <eagle version="9.5.1">
 <drawing>
 <settings>
-<setting alwaysvectorfont="no"/>
+<setting alwaysvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
 <grid distance="50" unitdist="mil" unit="mil" style="lines" multiple="1" display="no" altdistance="5" altunitdist="mil" altunit="mil"/>
@@ -165,13 +165,10 @@
 <hole x="3.81" y="3.81" drill="3.81"/>
 <hole x="3.81" y="36.83" drill="3.81"/>
 <hole x="64.77" y="36.83" drill="3.81"/>
-<hole x="64.77" y="3.81" drill="3.81"/>
 <text x="5.969" y="22.606" size="1.27" layer="25" rot="R270">RX  TX  GND</text>
 <text x="12.7" y="17.78" size="1.9304" layer="25">Teensy LC</text>
 <text x="9.525" y="31.369" size="1.27" layer="26" ratio="9" rot="MR270">Power In
 12V @ 2A</text>
-<text x="63.5" y="16.51" size="1.778" layer="25">TC+</text>
-<text x="63.5" y="8.89" size="1.778" layer="25">TC-</text>
 <text x="43.18" y="11.43" size="1.778" layer="26" rot="MR0">Oxygen Sensor Interface v1</text>
 <text x="20.32" y="11.43" size="1.778" layer="25">Teensy LC</text>
 <text x="10.922" y="6.096" size="1.27" layer="25" rot="R90">GND</text>
@@ -180,6 +177,8 @@
 <dimension x1="3.81" y1="36.83" x2="64.77" y2="36.83" x3="34.29" y3="44.45" textsize="1.778" layer="20" unit="inch"/>
 <dimension x1="0" y1="0" x2="3.81" y2="0" x3="1.905" y3="-3.81" textsize="1.778" layer="20" unit="inch"/>
 <dimension x1="0" y1="0" x2="0" y2="3.81" x3="-8.89" y3="1.905" textsize="1.778" layer="20" unit="inch"/>
+<dimension x1="1.905" y1="36.83" x2="5.715" y2="36.83" x3="3.81" y3="49.53" textsize="1.778" layer="20" dtype="diameter" unit="inch"/>
+<text x="55.245" y="10.287" size="1.778" layer="25">K-Type TC</text>
 </plain>
 <libraries>
 <library name="adafruit" urn="urn:adsk.eagle:library:420">
@@ -530,6 +529,18 @@ grid 2 mm, diameter 4 mm</description>
 <text x="-8.2042" y="8.4328" size="1.27" layer="51" ratio="6" rot="SR0">*</text>
 <text x="-7.0866" y="3.175" size="1.27" layer="25" ratio="6" rot="SR0">&gt;Name</text>
 </package>
+<package name="TC_KTYPE">
+<wire x1="10.668" y1="13.716" x2="10.668" y2="0" width="0.4064" layer="21"/>
+<wire x1="10.668" y1="0" x2="3.048" y2="0" width="0.4064" layer="21"/>
+<wire x1="10.668" y1="13.716" x2="3.048" y2="13.716" width="0.4064" layer="21"/>
+<pad name="1" x="0" y="13.716" drill="1.778" diameter="3.81"/>
+<pad name="2" x="0" y="0" drill="1.778" diameter="3.81"/>
+<pad name="3" x="13.462" y="13.716" drill="1.778" diameter="3.048"/>
+<pad name="4" x="13.462" y="0" drill="1.778" diameter="3.048"/>
+<wire x1="13.462" y1="3.81" x2="13.462" y2="2.286" width="0.4064" layer="21"/>
+<wire x1="12.7" y1="3.048" x2="14.224" y2="3.048" width="0.4064" layer="21"/>
+<wire x1="12.954" y1="11.176" x2="13.97" y2="11.176" width="0.4064" layer="21"/>
+</package>
 </packages>
 </library>
 <library name="L7805CV">
@@ -631,34 +642,6 @@ W = angled&lt;p&gt;
 <description>PIN HEADER</description>
 <packageinstances>
 <packageinstance name="MA03-1"/>
-</packageinstances>
-</package3d>
-</packages3d>
-</library>
-<library name="con-molex" urn="urn:adsk.eagle:library:165">
-<description>&lt;b&gt;Molex Connectors&lt;/b&gt;&lt;p&gt;
-&lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
-<packages>
-<package name="22-23-2021" urn="urn:adsk.eagle:footprint:8078259/1" library_version="4">
-<description>&lt;b&gt;KK® 254 Solid Header, Vertical, with Friction Lock, 2 Circuits, Tin (Sn) Plating&lt;/b&gt;&lt;p&gt;&lt;a href =http://www.molex.com/pdm_docs/sd/022232021_sd.pdf&gt;Datasheet &lt;/a&gt;</description>
-<wire x1="-2.54" y1="3.175" x2="2.54" y2="3.175" width="0.254" layer="21"/>
-<wire x1="2.54" y1="3.175" x2="2.54" y2="1.27" width="0.254" layer="21"/>
-<wire x1="2.54" y1="1.27" x2="2.54" y2="-3.175" width="0.254" layer="21"/>
-<wire x1="2.54" y1="-3.175" x2="-2.54" y2="-3.175" width="0.254" layer="21"/>
-<wire x1="-2.54" y1="-3.175" x2="-2.54" y2="1.27" width="0.254" layer="21"/>
-<wire x1="-2.54" y1="1.27" x2="-2.54" y2="3.175" width="0.254" layer="21"/>
-<wire x1="-2.54" y1="1.27" x2="2.54" y2="1.27" width="0.254" layer="21"/>
-<pad name="1" x="-1.27" y="0" drill="1" shape="long" rot="R90"/>
-<pad name="2" x="1.27" y="0" drill="1" shape="long" rot="R90"/>
-<text x="-2.54" y="3.81" size="1.016" layer="25" ratio="10">&gt;NAME</text>
-<text x="-2.54" y="-5.08" size="1.016" layer="27" ratio="10">&gt;VALUE</text>
-</package>
-</packages>
-<packages3d>
-<package3d name="22-23-2021" urn="urn:adsk.eagle:package:8078633/1" type="box" library_version="4">
-<description>&lt;b&gt;KK® 254 Solid Header, Vertical, with Friction Lock, 2 Circuits, Tin (Sn) Plating&lt;/b&gt;&lt;p&gt;&lt;a href =http://www.molex.com/pdm_docs/sd/022232021_sd.pdf&gt;Datasheet &lt;/a&gt;</description>
-<packageinstances>
-<packageinstance name="22-23-2021"/>
 </packageinstances>
 </package3d>
 </packages3d>
@@ -956,25 +939,18 @@ design rules under a new name.</description>
 <attribute name="NAME" x="46.355" y="21.463" size="1.27" layer="25" ratio="10"/>
 <attribute name="VALUE" x="44.7294" y="23.495" size="1.27" layer="25" ratio="10"/>
 </element>
-<element name="IC1" library="MAX31855KASA_T" package="SOIC127P600X175-8N" value="MAX31855KASA+T" x="52.197" y="11.176" smashed="yes" rot="R180">
-<attribute name="DESCRIPTION" value=" IC CONV THERMOCOUPLE-DGTL 8SOIC " x="52.197" y="11.176" size="1.778" layer="27" rot="R180" display="off"/>
-<attribute name="DIGI-KEY_PART_NUMBER" value="MAX31855KASA+TCT-ND" x="52.197" y="11.176" size="1.778" layer="27" rot="R180" display="off"/>
-<attribute name="DIGI-KEY_PURCHASE_URL" value="https://www.digikey.com/product-detail/en/maxim-integrated/MAX31855KASA-T/MAX31855KASA-TCT-ND/2708805?utm_source=snapeda&amp;utm_medium=aggregator&amp;utm_campaign=symbol" x="52.197" y="11.176" size="1.778" layer="27" rot="R180" display="off"/>
-<attribute name="MF" value="Maxim Integrated" x="52.197" y="11.176" size="1.778" layer="27" rot="R180" display="off"/>
-<attribute name="MP" value="MAX31855KASA+T" x="52.197" y="11.176" size="1.778" layer="27" rot="R180" display="off"/>
-<attribute name="NAME" x="50.513" y="6.761" size="1.27" layer="25"/>
-<attribute name="PACKAGE" value="SOIC-8 Maxim" x="52.197" y="11.176" size="1.778" layer="27" rot="R180" display="off"/>
+<element name="IC1" library="MAX31855KASA_T" package="SOIC127P600X175-8N" value="MAX31855KASA+T" x="48.387" y="11.176" smashed="yes" rot="R180">
+<attribute name="DESCRIPTION" value=" IC CONV THERMOCOUPLE-DGTL 8SOIC " x="48.387" y="11.176" size="1.778" layer="27" rot="R180" display="off"/>
+<attribute name="DIGI-KEY_PART_NUMBER" value="MAX31855KASA+TCT-ND" x="48.387" y="11.176" size="1.778" layer="27" rot="R180" display="off"/>
+<attribute name="DIGI-KEY_PURCHASE_URL" value="https://www.digikey.com/product-detail/en/maxim-integrated/MAX31855KASA-T/MAX31855KASA-TCT-ND/2708805?utm_source=snapeda&amp;utm_medium=aggregator&amp;utm_campaign=symbol" x="48.387" y="11.176" size="1.778" layer="27" rot="R180" display="off"/>
+<attribute name="MF" value="Maxim Integrated" x="48.387" y="11.176" size="1.778" layer="27" rot="R180" display="off"/>
+<attribute name="MP" value="MAX31855KASA+T" x="48.387" y="11.176" size="1.778" layer="27" rot="R180" display="off"/>
+<attribute name="NAME" x="46.703" y="6.761" size="1.27" layer="25"/>
+<attribute name="PACKAGE" value="SOIC-8 Maxim" x="48.387" y="11.176" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
-<element name="X1" library="con-molex" library_urn="urn:adsk.eagle:library:165" package="22-23-2021" package3d_urn="urn:adsk.eagle:package:8078633/1" value="22-23-2021" x="65.024" y="13.589" smashed="yes" rot="R90">
-<attribute name="MF" value="MOLEX" x="65.024" y="13.589" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="MPN" value="22-23-2021" x="65.024" y="13.589" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="OC_FARNELL" value="1462926" x="65.024" y="13.589" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="OC_NEWARK" value="25C3832" x="65.024" y="13.589" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="POPULARITY" value="40" x="65.024" y="13.589" size="1.778" layer="27" rot="R90" display="off"/>
-</element>
-<element name="C1" library="adafruit" library_urn="urn:adsk.eagle:library:420" package="C025-030X050" package3d_urn="urn:adsk.eagle:package:6240322/1" value=".1uF" x="53.34" y="16.891" smashed="yes" rot="R180">
-<attribute name="NAME" x="50.546" y="17.272" size="1.27" layer="25" ratio="10" rot="R180"/>
-<attribute name="VALUE" x="54.356" y="19.939" size="1.27" layer="25" ratio="10" rot="R180"/>
+<element name="C1" library="adafruit" library_urn="urn:adsk.eagle:library:420" package="C025-030X050" package3d_urn="urn:adsk.eagle:package:6240322/1" value=".1uF" x="46.99" y="15.621" smashed="yes" rot="R180">
+<attribute name="NAME" x="44.196" y="16.002" size="1.27" layer="25" ratio="10" rot="R180"/>
+<attribute name="VALUE" x="48.006" y="18.669" size="1.27" layer="25" ratio="10" rot="R180"/>
 </element>
 <element name="C2" library="adafruit" library_urn="urn:adsk.eagle:library:420" package="C025-030X050" package3d_urn="urn:adsk.eagle:package:6240322/1" value="1uF" x="52.832" y="27.94" smashed="yes" rot="R180">
 <attribute name="NAME" x="55.118" y="30.988" size="1.27" layer="25" ratio="10" rot="R180"/>
@@ -984,6 +960,7 @@ design rules under a new name.</description>
 <attribute name="NAME" x="20.066" y="25.527" size="1.27" layer="25" ratio="10"/>
 <attribute name="VALUE" x="20.066" y="22.479" size="1.27" layer="25" ratio="10"/>
 </element>
+<element name="U$1" library="samdg" package="TC_KTYPE" value="K_TC_CONN" x="64.77" y="17.78" smashed="yes" rot="R180"/>
 </elements>
 <signals>
 <signal name="GND">
@@ -1003,10 +980,9 @@ design rules under a new name.</description>
 <contactref element="U3" pad="4"/>
 <contactref element="R5" pad="2"/>
 <contactref element="IC1" pad="1"/>
-<wire x1="54.548" y1="7.682" x2="54.61" y2="7.62" width="0.508" layer="1"/>
-<via x="54.61" y="7.62" extent="1-16" drill="0.35"/>
-<wire x1="54.672" y1="9.271" x2="54.672" y2="7.806" width="0.508" layer="1"/>
-<wire x1="54.672" y1="7.806" x2="54.548" y2="7.682" width="0.508" layer="1"/>
+<via x="50.8" y="7.62" extent="1-16" drill="0.35"/>
+<wire x1="50.862" y1="9.271" x2="50.862" y2="7.682" width="0.508" layer="1"/>
+<wire x1="50.862" y1="7.682" x2="50.8" y2="7.62" width="0.508" layer="1"/>
 <contactref element="C1" pad="2"/>
 <contactref element="C5" pad="-"/>
 <contactref element="C2" pad="2"/>
@@ -1034,15 +1010,17 @@ design rules under a new name.</description>
 <wire x1="51.562" y1="31.75" x2="55.88" y2="31.75" width="0.508" layer="1"/>
 <wire x1="55.88" y1="31.75" x2="57.15" y2="30.48" width="0.508" layer="1"/>
 <wire x1="57.15" y1="30.48" x2="60.96" y2="26.67" width="0.508" layer="1"/>
-<wire x1="60.96" y1="26.67" x2="60.96" y2="17.78" width="0.508" layer="1"/>
-<wire x1="60.96" y1="17.78" x2="56.261" y2="13.081" width="0.508" layer="1"/>
-<wire x1="56.261" y1="13.081" x2="54.672" y2="13.081" width="0.508" layer="1"/>
+<wire x1="60.96" y1="26.67" x2="60.96" y2="21.59" width="0.508" layer="1"/>
 <contactref element="C1" pad="1"/>
 <contactref element="C2" pad="1"/>
 <wire x1="54.102" y1="27.94" x2="56.642" y2="30.48" width="0.508" layer="1"/>
 <wire x1="56.642" y1="30.48" x2="57.15" y2="30.48" width="0.508" layer="1"/>
-<wire x1="54.61" y1="16.891" x2="54.672" y2="16.829" width="0.508" layer="1"/>
-<wire x1="54.672" y1="16.829" x2="54.672" y2="13.081" width="0.508" layer="1"/>
+<wire x1="50.862" y1="13.081" x2="50.8" y2="13.081" width="0.508" layer="1"/>
+<wire x1="50.8" y1="13.081" x2="48.26" y2="15.621" width="0.508" layer="1"/>
+<wire x1="48.26" y1="15.621" x2="48.26" y2="19.05" width="0.508" layer="1"/>
+<wire x1="48.26" y1="19.05" x2="49.53" y2="20.32" width="0.508" layer="1"/>
+<wire x1="49.53" y1="20.32" x2="59.69" y2="20.32" width="0.508" layer="1"/>
+<wire x1="59.69" y1="20.32" x2="60.96" y2="21.59" width="0.508" layer="1"/>
 </signal>
 <signal name="HEATER_CTRL">
 <contactref element="JP2" pad="8"/>
@@ -1134,37 +1112,39 @@ design rules under a new name.</description>
 <signal name="CS">
 <contactref element="IC1" pad="6"/>
 <contactref element="JP1" pad="12"/>
-<wire x1="38.1" y1="3.81" x2="38.1" y2="6.35" width="0.508" layer="1"/>
-<wire x1="38.1" y1="6.35" x2="43.561" y2="11.811" width="0.508" layer="1"/>
-<wire x1="43.561" y1="11.811" x2="49.722" y2="11.811" width="0.508" layer="1"/>
+<wire x1="38.1" y1="3.81" x2="38.1" y2="7.62" width="0.508" layer="1"/>
+<wire x1="38.1" y1="7.62" x2="42.291" y2="11.811" width="0.508" layer="1"/>
+<wire x1="42.291" y1="11.811" x2="45.912" y2="11.811" width="0.508" layer="1"/>
 </signal>
 <signal name="SCK">
 <contactref element="IC1" pad="5"/>
 <contactref element="JP2" pad="14"/>
-<wire x1="43.18" y1="19.05" x2="43.18" y2="15.24" width="0.508" layer="1"/>
-<wire x1="45.339" y1="13.081" x2="49.722" y2="13.081" width="0.508" layer="1"/>
-<wire x1="43.18" y1="15.24" x2="45.339" y2="13.081" width="0.508" layer="1"/>
+<wire x1="43.18" y1="19.05" x2="43.18" y2="13.97" width="0.508" layer="1"/>
+<wire x1="44.069" y1="13.081" x2="45.912" y2="13.081" width="0.508" layer="1"/>
+<wire x1="43.18" y1="13.97" x2="44.069" y2="13.081" width="0.508" layer="1"/>
 </signal>
 <signal name="TC+">
 <contactref element="IC1" pad="3"/>
-<contactref element="X1" pad="2"/>
-<wire x1="54.672" y1="11.811" x2="58.801" y2="11.811" width="0.508" layer="1"/>
-<wire x1="65.024" y1="14.859" x2="61.849" y2="14.859" width="0.508" layer="1"/>
-<wire x1="61.849" y1="14.859" x2="58.801" y2="11.811" width="0.508" layer="1"/>
+<contactref element="U$1" pad="4"/>
+<wire x1="51.308" y1="17.78" x2="53.34" y2="15.748" width="0.508" layer="1"/>
+<wire x1="53.34" y1="12.7" x2="52.451" y2="11.811" width="0.508" layer="1"/>
+<wire x1="52.451" y1="11.811" x2="50.862" y2="11.811" width="0.508" layer="1"/>
+<wire x1="53.34" y1="15.748" x2="53.34" y2="12.7" width="0.508" layer="1"/>
 </signal>
 <signal name="TC-">
 <contactref element="IC1" pad="2"/>
-<contactref element="X1" pad="1"/>
-<wire x1="54.672" y1="10.541" x2="60.071" y2="10.541" width="0.508" layer="1"/>
-<wire x1="61.849" y1="12.319" x2="65.024" y2="12.319" width="0.508" layer="1"/>
-<wire x1="60.071" y1="10.541" x2="61.849" y2="12.319" width="0.508" layer="1"/>
+<contactref element="U$1" pad="3"/>
+<wire x1="51.308" y1="4.064" x2="53.34" y2="6.096" width="0.508" layer="1"/>
+<wire x1="53.34" y1="9.652" x2="52.451" y2="10.541" width="0.508" layer="1"/>
+<wire x1="52.451" y1="10.541" x2="50.862" y2="10.541" width="0.508" layer="1"/>
+<wire x1="53.34" y1="6.096" x2="53.34" y2="9.652" width="0.508" layer="1"/>
 </signal>
 <signal name="MISO">
 <contactref element="JP1" pad="14"/>
 <contactref element="IC1" pad="7"/>
-<wire x1="49.722" y1="10.541" x2="46.101" y2="10.541" width="0.508" layer="1"/>
-<wire x1="43.18" y1="7.62" x2="43.18" y2="3.81" width="0.508" layer="1"/>
-<wire x1="46.101" y1="10.541" x2="43.18" y2="7.62" width="0.508" layer="1"/>
+<wire x1="45.912" y1="10.541" x2="44.069" y2="10.541" width="0.508" layer="1"/>
+<wire x1="43.18" y1="9.652" x2="43.18" y2="3.81" width="0.508" layer="1"/>
+<wire x1="44.069" y1="10.541" x2="43.18" y2="9.652" width="0.508" layer="1"/>
 </signal>
 <signal name="N$4">
 <contactref element="JP1" pad="13"/>

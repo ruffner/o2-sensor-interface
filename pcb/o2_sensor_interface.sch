@@ -13058,6 +13058,18 @@ diameter 5 mm, grid 2.54 mm</description>
 <text x="-8.2042" y="8.4328" size="1.27" layer="51" ratio="6" rot="SR0">*</text>
 <text x="-7.0866" y="3.175" size="1.27" layer="25" ratio="6" rot="SR0">&gt;Name</text>
 </package>
+<package name="TC_KTYPE">
+<wire x1="10.668" y1="13.716" x2="10.668" y2="0" width="0.4064" layer="21"/>
+<wire x1="10.668" y1="0" x2="3.048" y2="0" width="0.4064" layer="21"/>
+<wire x1="10.668" y1="13.716" x2="3.048" y2="13.716" width="0.4064" layer="21"/>
+<pad name="1" x="0" y="13.716" drill="1.778" diameter="3.81"/>
+<pad name="2" x="0" y="0" drill="1.778" diameter="3.81"/>
+<pad name="3" x="13.462" y="13.716" drill="1.778" diameter="3.048"/>
+<pad name="4" x="13.462" y="0" drill="1.778" diameter="3.048"/>
+<wire x1="13.462" y1="3.81" x2="13.462" y2="2.286" width="0.4064" layer="21"/>
+<wire x1="12.7" y1="3.048" x2="14.224" y2="3.048" width="0.4064" layer="21"/>
+<wire x1="12.954" y1="11.176" x2="13.97" y2="11.176" width="0.4064" layer="21"/>
+</package>
 </packages>
 <symbols>
 <symbol name="IRLB8721PBF">
@@ -13086,6 +13098,16 @@ diameter 5 mm, grid 2.54 mm</description>
 <wire x1="53.34" y1="5.08" x2="7.62" y2="5.08" width="0.1524" layer="94"/>
 <text x="25.7556" y="9.1186" size="2.0828" layer="95" ratio="6" rot="SR0">&gt;Name</text>
 <text x="25.1206" y="6.5786" size="2.0828" layer="96" ratio="6" rot="SR0">&gt;Value</text>
+</symbol>
+<symbol name="TC_K_CONN">
+<wire x1="-5.08" y1="-7.62" x2="-5.08" y2="5.08" width="0.254" layer="94"/>
+<wire x1="-5.08" y1="5.08" x2="5.08" y2="5.08" width="0.254" layer="94"/>
+<wire x1="5.08" y1="5.08" x2="5.08" y2="-7.62" width="0.254" layer="94"/>
+<wire x1="5.08" y1="-7.62" x2="-5.08" y2="-7.62" width="0.254" layer="94"/>
+<pin name="TC-" x="10.16" y="-2.54" length="middle" rot="R180"/>
+<pin name="TC+" x="10.16" y="0" length="middle" rot="R180"/>
+<text x="-2.54" y="2.54" size="1.27" layer="96">&gt;VALUE</text>
+<text x="-2.54" y="-5.08" size="1.27" layer="95">&gt;NAME</text>
 </symbol>
 </symbols>
 <devicesets>
@@ -13140,6 +13162,22 @@ diameter 5 mm, grid 2.54 mm</description>
 <attribute name="PIN_COUNT" value="8" constant="no"/>
 <attribute name="VENDOR" value="Texas Instruments" constant="no"/>
 </technology>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="K_TC_CONN">
+<gates>
+<gate name="A" symbol="TC_K_CONN" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="TC_KTYPE">
+<connects>
+<connect gate="A" pin="TC+" pad="4"/>
+<connect gate="A" pin="TC-" pad="3"/>
+</connects>
+<technologies>
+<technology name=""/>
 </technologies>
 </device>
 </devices>
@@ -13383,76 +13421,6 @@ W = angled&lt;p&gt;
 </deviceset>
 </devicesets>
 </library>
-<library name="con-molex" urn="urn:adsk.eagle:library:165">
-<description>&lt;b&gt;Molex Connectors&lt;/b&gt;&lt;p&gt;
-&lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
-<packages>
-<package name="22-23-2021" urn="urn:adsk.eagle:footprint:8078259/1" library_version="4">
-<description>&lt;b&gt;KK® 254 Solid Header, Vertical, with Friction Lock, 2 Circuits, Tin (Sn) Plating&lt;/b&gt;&lt;p&gt;&lt;a href =http://www.molex.com/pdm_docs/sd/022232021_sd.pdf&gt;Datasheet &lt;/a&gt;</description>
-<wire x1="-2.54" y1="3.175" x2="2.54" y2="3.175" width="0.254" layer="21"/>
-<wire x1="2.54" y1="3.175" x2="2.54" y2="1.27" width="0.254" layer="21"/>
-<wire x1="2.54" y1="1.27" x2="2.54" y2="-3.175" width="0.254" layer="21"/>
-<wire x1="2.54" y1="-3.175" x2="-2.54" y2="-3.175" width="0.254" layer="21"/>
-<wire x1="-2.54" y1="-3.175" x2="-2.54" y2="1.27" width="0.254" layer="21"/>
-<wire x1="-2.54" y1="1.27" x2="-2.54" y2="3.175" width="0.254" layer="21"/>
-<wire x1="-2.54" y1="1.27" x2="2.54" y2="1.27" width="0.254" layer="21"/>
-<pad name="1" x="-1.27" y="0" drill="1" shape="long" rot="R90"/>
-<pad name="2" x="1.27" y="0" drill="1" shape="long" rot="R90"/>
-<text x="-2.54" y="3.81" size="1.016" layer="25" ratio="10">&gt;NAME</text>
-<text x="-2.54" y="-5.08" size="1.016" layer="27" ratio="10">&gt;VALUE</text>
-</package>
-</packages>
-<packages3d>
-<package3d name="22-23-2021" urn="urn:adsk.eagle:package:8078633/1" type="box" library_version="4">
-<description>&lt;b&gt;KK® 254 Solid Header, Vertical, with Friction Lock, 2 Circuits, Tin (Sn) Plating&lt;/b&gt;&lt;p&gt;&lt;a href =http://www.molex.com/pdm_docs/sd/022232021_sd.pdf&gt;Datasheet &lt;/a&gt;</description>
-<packageinstances>
-<packageinstance name="22-23-2021"/>
-</packageinstances>
-</package3d>
-</packages3d>
-<symbols>
-<symbol name="MV" urn="urn:adsk.eagle:symbol:8078125/1" library_version="4">
-<wire x1="1.27" y1="0" x2="0" y2="0" width="0.6096" layer="94"/>
-<text x="2.54" y="-0.762" size="1.524" layer="95">&gt;NAME</text>
-<text x="-0.762" y="1.397" size="1.778" layer="96">&gt;VALUE</text>
-<pin name="S" x="-2.54" y="0" visible="off" length="short" direction="pas"/>
-</symbol>
-<symbol name="M" urn="urn:adsk.eagle:symbol:8078124/1" library_version="4">
-<wire x1="1.27" y1="0" x2="0" y2="0" width="0.6096" layer="94"/>
-<text x="2.54" y="-0.762" size="1.524" layer="95">&gt;NAME</text>
-<pin name="S" x="-2.54" y="0" visible="off" length="short" direction="pas"/>
-</symbol>
-</symbols>
-<devicesets>
-<deviceset name="22-23-2021" urn="urn:adsk.eagle:component:8078938/2" prefix="X" library_version="4">
-<description>.100" (2.54mm) Center Header - 2 Pin</description>
-<gates>
-<gate name="-1" symbol="MV" x="0" y="0" addlevel="always" swaplevel="1"/>
-<gate name="-2" symbol="M" x="0" y="-2.54" addlevel="always" swaplevel="1"/>
-</gates>
-<devices>
-<device name="" package="22-23-2021">
-<connects>
-<connect gate="-1" pin="S" pad="1"/>
-<connect gate="-2" pin="S" pad="2"/>
-</connects>
-<package3dinstances>
-<package3dinstance package3d_urn="urn:adsk.eagle:package:8078633/1"/>
-</package3dinstances>
-<technologies>
-<technology name="">
-<attribute name="MF" value="MOLEX" constant="no"/>
-<attribute name="MPN" value="22-23-2021" constant="no"/>
-<attribute name="OC_FARNELL" value="1462926" constant="no"/>
-<attribute name="OC_NEWARK" value="25C3832" constant="no"/>
-<attribute name="POPULARITY" value="40" constant="no"/>
-</technology>
-</technologies>
-</device>
-</devices>
-</deviceset>
-</devicesets>
-</library>
 <library name="frames" urn="urn:adsk.eagle:library:229">
 <description>&lt;b&gt;Frames for Sheet and Layout&lt;/b&gt;</description>
 <packages>
@@ -13537,11 +13505,11 @@ W = angled&lt;p&gt;
 <part name="R5" library="adafruit" library_urn="urn:adsk.eagle:library:420" deviceset="R-US_" device="0207/9" package3d_urn="urn:adsk.eagle:package:6240935/1" value="2k"/>
 <part name="R6" library="adafruit" library_urn="urn:adsk.eagle:library:420" deviceset="R-US_" device="0207/9" package3d_urn="urn:adsk.eagle:package:6240935/1" value="100k"/>
 <part name="IC1" library="MAX31855KASA_T" deviceset="MAX31855KASA+T" device=""/>
-<part name="X1" library="con-molex" library_urn="urn:adsk.eagle:library:165" deviceset="22-23-2021" device="" package3d_urn="urn:adsk.eagle:package:8078633/1"/>
 <part name="C1" library="adafruit" library_urn="urn:adsk.eagle:library:420" deviceset="C-US" device="025-030X050" package3d_urn="urn:adsk.eagle:package:6240322/1" value=".1uF"/>
 <part name="C2" library="adafruit" library_urn="urn:adsk.eagle:library:420" deviceset="C-US" device="025-030X050" package3d_urn="urn:adsk.eagle:package:6240322/1" value="1uF"/>
 <part name="C5" library="adafruit" library_urn="urn:adsk.eagle:library:420" deviceset="CPOL-US" device="E2-4" package3d_urn="urn:adsk.eagle:package:6240495/1" value="10uF"/>
 <part name="FRAME1" library="frames" library_urn="urn:adsk.eagle:library:229" deviceset="FRAME_A_L" device=""/>
+<part name="U$1" library="samdg" deviceset="K_TC_CONN" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -13641,13 +13609,6 @@ W = angled&lt;p&gt;
 <attribute name="NAME" x="198.12" y="199.12" size="2.0828" layer="95" ratio="10" rot="SR0"/>
 <attribute name="VALUE" x="198.12" y="163.64" size="2.0828" layer="96" ratio="10" rot="SR0"/>
 </instance>
-<instance part="X1" gate="-1" x="172.72" y="182.88" smashed="yes" rot="R180">
-<attribute name="NAME" x="170.18" y="183.642" size="1.524" layer="95" rot="R180"/>
-<attribute name="VALUE" x="173.482" y="181.483" size="1.778" layer="96" rot="R180"/>
-</instance>
-<instance part="X1" gate="-2" x="172.72" y="185.42" smashed="yes" rot="R180">
-<attribute name="NAME" x="170.18" y="186.182" size="1.524" layer="95" rot="R180"/>
-</instance>
 <instance part="C1" gate="G$1" x="254" y="193.04" smashed="yes">
 <attribute name="NAME" x="255.016" y="193.675" size="1.778" layer="95"/>
 <attribute name="VALUE" x="255.016" y="188.849" size="1.778" layer="96"/>
@@ -13665,6 +13626,10 @@ W = angled&lt;p&gt;
 <attribute name="LAST_DATE_TIME" x="185.42" y="1.27" size="2.54" layer="94"/>
 <attribute name="SHEET" x="259.08" y="1.27" size="2.54" layer="94"/>
 <attribute name="DRAWING_NAME" x="190.5" y="19.05" size="2.54" layer="94"/>
+</instance>
+<instance part="U$1" gate="A" x="160.02" y="185.42" smashed="yes">
+<attribute name="VALUE" x="157.48" y="190.5" size="1.27" layer="96"/>
+<attribute name="NAME" x="157.48" y="180.34" size="1.27" layer="95"/>
 </instance>
 </instances>
 <busses>
@@ -13930,17 +13895,17 @@ W = angled&lt;p&gt;
 <net name="TC+" class="0">
 <segment>
 <pinref part="IC1" gate="G$1" pin="T+"/>
-<wire x1="193.04" y1="185.42" x2="175.26" y2="185.42" width="0.1524" layer="91"/>
+<wire x1="193.04" y1="185.42" x2="170.18" y2="185.42" width="0.1524" layer="91"/>
 <label x="182.88" y="185.42" size="1.778" layer="95"/>
-<pinref part="X1" gate="-2" pin="S"/>
+<pinref part="U$1" gate="A" pin="TC+"/>
 </segment>
 </net>
 <net name="TC-" class="0">
 <segment>
 <pinref part="IC1" gate="G$1" pin="T-"/>
-<wire x1="193.04" y1="182.88" x2="175.26" y2="182.88" width="0.1524" layer="91"/>
+<wire x1="193.04" y1="182.88" x2="170.18" y2="182.88" width="0.1524" layer="91"/>
 <label x="182.88" y="182.88" size="1.778" layer="95"/>
-<pinref part="X1" gate="-1" pin="S"/>
+<pinref part="U$1" gate="A" pin="TC-"/>
 </segment>
 </net>
 <net name="MISO" class="0">

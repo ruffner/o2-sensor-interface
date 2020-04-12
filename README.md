@@ -18,6 +18,6 @@ Dimensions in inches.
 
 ## Partslist
 
-Thermocouple I was looking at: [https://www.amazon.com/dp/B074375LJR](https://www.amazon.com/dp/B074375LJR).
+Thermocouple: [https://www.amazon.com/gp/product/B07QK4ZG1G](https://www.amazon.com/gp/product/B07QK4ZG1G)
 
 [Digikey BOM](pcb/Digikey_Bom_8219274.csv)

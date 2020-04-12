@@ -6,6 +6,7 @@ An unconventional use of an [automotive oxygen sensor](https://www.oreillyauto.c
 <img src="images/schematic.png" width="100%"/>
 
 ## Layout
+Dimensions in inches.
 
 <img src="images/board_dimensions.png" width="100%"/>
 

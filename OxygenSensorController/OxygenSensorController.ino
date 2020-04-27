@@ -1,3 +1,6 @@
+#include <SoftPWM.h>
+#include <SoftPWM_timer.h>
+
 /*
   Read oxygen sensor output voltage from opamp and control oxygen sensor heater with
   PID control using a thermocouple.
@@ -29,14 +32,14 @@
 //      = 1 + ( 100 kohm / 2 kohm )
 #define OPAMP_GAIN      51
 
-#define HEATER_PIN      19
+#define HEATER_PIN      20
 #define ADC_PIN_OP_AMP  A1
 
 // different intervals used. Log interval is the most useful to change.
 #define COMMAND_CHECK_INTERVAL  50
 #define HEATER_UPDATE_INTERVAL  500
 #define TC_UPDATE_INTERVAL      500
-#define LOG_INTERVAL            200
+#define LOG_INTERVAL            100
 
 // inital setpoint temperature of sensor heater
 #define INTIAL_SETPOINT         500 // deg c
@@ -47,7 +50,7 @@
 Adafruit_MAX31855 thermocouple(MAXCS);
 
 // TODO: improve tuning params
-double Kp=4, Ki=1, Kd=1;
+double Kp=10, Ki=1, Kd=1;
 
 // create the PID control object and link variables
 double Setpoint, Input, Output;
@@ -61,8 +64,9 @@ unsigned long windowStartTime;
 double lastTCTemp = 0.0;
 
 // change these if you want logging and/or heating to start immediately upon startup
-bool loggingActive = false;
-bool heating = false, heaterStatus = false;
+bool loggingActive = true;
+bool heating = false;
+int heaterStatus = 0;
 
 // timestamp holders
 unsigned long lastCommandCheck, lastHeaterUpdate, lastLogTime;
@@ -119,13 +123,11 @@ void checkForCommand() {
     } else if( op1.toLowerCase().startsWith("heater") ){
       if( op2.toLowerCase().startsWith("on") ){
         heating = true;
+        if( op3.length() > 0 ){
+          heaterStatus = min(max(op3.toInt(), 0), 255);
+        }
       } else if( op2.toLowerCase().startsWith("off") ){
         heating = false;
-      } else if(  op2.toLowerCase().startsWith("setpoint") ){
-        if( op3.length() == 0 ){
-          return;
-        }
-        Setpoint = map(op3.toInt(), 0, MAXIMUM_TC_TEMP, 0, WindowSize);
       }
     } 
   }
@@ -139,7 +141,7 @@ unsigned int averageADC(int pin, int k, unsigned short period) {
   
   for( int i=0; i<k; i++ ){
     a = a + analogRead(pin);
-    delay(period);
+    delayMicroseconds(period);
   }
   
   a = a / k;
@@ -151,7 +153,7 @@ unsigned int averageADC(int pin, int k, unsigned short period) {
 // rescale adc reading to volts, taking into account opamp gain and adc 
 // resolution
 float rescaleToVolts(unsigned int raw) {
-  return ((float)(raw) / ADC_RES_INC)*ADC_REF/OPAMP_GAIN;
+  return ((float)(raw) / (float)ADC_RES_INC)*(float)ADC_REF/(float)OPAMP_GAIN;
 }
 
 
@@ -166,19 +168,12 @@ void setup() {
 
   // 0-4095
   analogReadResolution(ADC_RES_BITS);
+
+  SoftPWMBegin(SOFTPWM_NORMAL);
   
-  delay(500);
+  delay(1000);
 
-  // initial setpoint
-  Setpoint = map(INTIAL_SETPOINT, 0, MAXIMUM_TC_TEMP, 0, WindowSize); // degrees celcius
-  
-  windowStartTime = millis();
-
-  //tell the PID to range between 0 and the full window size
-  myPID.SetOutputLimits(0, WindowSize);
-
-  //turn the PID on
-  myPID.SetMode(AUTOMATIC);
+  analogWrite(HEATER_PIN, 200);
 }
 
 
@@ -197,47 +192,47 @@ void loop() {
     lastCommandCheck = now;
     checkForCommand();
   }
+
+//  if( now - lastHeaterUpdate > HEATER_UPDATE_INTERVAL ){
+//    lastHeaterUpdate = now;
+//    if( heaterStatus  < 2){
+//      digitalWrite(HEATER_PIN, HIGH);
+//      heaterStatus++;
+//    } else {
+//      digitalWrite(HEATER_PIN, LOW);
+//      heaterStatus = 0;
+//    }
+//  }
   
   if( heating ){
-    myPID.Compute();
-  }
-
-  /************************************************
-   * turn the output pin on/off based on pid output
-   ************************************************/
-  if (millis() - windowStartTime > WindowSize)
-  { //time to shift the Relay Window
-    windowStartTime += WindowSize;
-  }
-  if (Output < millis() - windowStartTime) {
-    if( heating ){
-      digitalWrite(HEATER_PIN, LOW);
-    }
-    heaterStatus = 0;
+    
+    //digitalWrite(HEATER_PIN, HIGH);
+    //SoftPWMSet(HEATER_PIN, heaterStatus);
+    //analogWrite(HEATER_PIN, heaterStatus);
   } else {
-    if( heating ){
-      digitalWrite(HEATER_PIN, HIGH);
-      heaterStatus = 1;
-    } else {
-      heaterStatus = 0;
-    }
+    //analogWrite(HEATER_PIN, 0);
+    //SoftPWMSet(HEATER_PIN, 0);
+    //if( heaterStatus != 0 ){
+     // heaterStatus = 0;
+    //}
   }
 
   if( !loggingActive ) return;
 
   if( now - lastLogTime > LOG_INTERVAL ){
+  //if( now - lastLogTime > LOG_INTERVAL && heaterStatus == 1 ){  
     lastLogTime = now;
-    unsigned int rawOp  = averageADC(ADC_PIN_OP_AMP, 5, 10);
+    unsigned int rawOp  = averageADC(ADC_PIN_OP_AMP, 50, 1000);
     float voltsOp  = (rescaleToVolts(rawOp));
   
     Serial.print(now);
     Serial.print(",");
     Serial.print(heaterStatus);
     Serial.print(",");
+    Serial.print(rawOp);
+    Serial.print(",");
     Serial.print(voltsOp, DEC);
     Serial.print(",");
-    Serial.print(lastTCTemp,DEC);
-    Serial.print(",");
-    Serial.println(map(Setpoint, 0, WindowSize, 0, MAXIMUM_TC_TEMP));
+    Serial.println(lastTCTemp,DEC);
   }
 }

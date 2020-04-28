@@ -6,9 +6,14 @@ An unconventional use of an [automotive oxygen sensor](https://www.oreillyauto.c
 <img src="images/assembled-board.jpg" width="100%"/>
 
 ## Software Setup
-You'll need:
-- Arduino IDE
-- TeensyDuino installer
+The board will emulate a USB serial com port. You can use the arduino serial monitor (Board -> Port menu). 
+- [Arduino IDE 1.8.12](https://www.arduino.cc/en/main/software)
+
+You can also use putty if on windows machine.
+- [Putty](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)
+
+You only need teensyduino to *update* code on the microcontroller. To simply monitor the serial output it is not needed.
+- [TeensyDuino installer](https://www.pjrc.com/teensy/td_download.html)
 
 Needed libs from the Arduino library manager
 - Adafruit BusIO

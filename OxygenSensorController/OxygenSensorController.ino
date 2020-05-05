@@ -12,8 +12,7 @@
  */
 
 #include <SPI.h>
-#include <PID_v1.h>
-#include <SoftPWM.h>
+#include <FIR.h>
 #include "Adafruit_MAX31855.h"
 
 #define SERIAL_BAUD     115200
@@ -36,42 +35,47 @@
 #define ADC_PIN_OP_AMP  A1
 
 // different intervals used. Log interval is the most useful to change.
-#define COMMAND_CHECK_INTERVAL  50
-#define HEATER_UPDATE_INTERVAL  500
+#define COMMAND_CHECK_INTERVAL  50 // milliseconds
 #define TC_UPDATE_INTERVAL      500
-#define LOG_INTERVAL            100
-
-// inital setpoint temperature of sensor heater
-#define INTIAL_SETPOINT         500 // deg c
+#define LOG_INTERVAL            4 // milliseconds
 
 // create a thermocouple to digital interface over SPI
 #define MAXIMUM_TC_TEMP         1000 // deg c
 #define MAXCS   10
 Adafruit_MAX31855 thermocouple(MAXCS);
 
-// TODO: improve tuning params
-double Kp=10, Ki=1, Kd=1;
+// flag set in to trigger adc update 
+volatile bool sampleUpdateFlag = false;
 
-// create the PID control object and link variables
-double Setpoint, Input, Output;
-PID myPID(&Input, &Output, &Setpoint, Kp, Ki, Kd, DIRECT);
-
-// sliding window for PID heater control
-int WindowSize = 1000;
-unsigned long windowStartTime;
-
-// var to hold last TC reading
+// last TC reading
 double lastTCTemp = 0.0;
+
+// heater pwm power
+uint8_t heaterPwm = 200;
+
+// sensor reading
+float voltsOp = 0.0;
+
+// lowpass filtered sensor reading
+float voltsOpFilt = 0.0;
 
 // change these if you want logging and/or heating to start immediately upon startup
 bool loggingActive = true;
-bool heating = false;
-int heaterStatus = 0;
+bool heating = true;
 
 // timestamp holders
 unsigned long lastCommandCheck, lastHeaterUpdate, lastLogTime;
 unsigned long lastTCUpdate=0;
 
+IntervalTimer sampleTimer;
+
+FIR<float, 13> lpfilt;
+
+//////////////////////////////////////////////////////////////////////////////////////////
+// callback for adc sample timer
+void setSampleUpdateFlag() {
+  sampleUpdateFlag = true;
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // store TC temp reading in deg celcius
@@ -79,7 +83,7 @@ void updateTC() {
    double c = thermocouple.readCelsius();
    if (isnan(c)) {
      //Serial.println("Something wrong with thermocouple!");
-     lastTCTemp = 0;
+     //lastTCTemp = 0;
    } else {
      lastTCTemp = c;
    }
@@ -124,28 +128,16 @@ void checkForCommand() {
       if( op2.toLowerCase().startsWith("on") ){
         heating = true;
         if( op3.length() > 0 ){
-          heaterStatus = min(max(op3.toInt(), 0), 255);
+          heaterPwm = min(max(op3.toInt(), 0), 255);
+          analogWrite(HEATER_PIN, heaterPwm);
         }
       } else if( op2.toLowerCase().startsWith("off") ){
         heating = false;
+        heaterPwm = 0;
+        analogWrite(HEATER_PIN, 0);
       }
     } 
   }
-}
-
-
-//////////////////////////////////////////////////////////////////////////////////////////
-// read an adc pin, averaging the reading k times with period ms between readings
-unsigned int averageADC(int pin, int k, unsigned short period) {  
-  unsigned int a = 0;
-  
-  for( int i=0; i<k; i++ ){
-    a = a + analogRead(pin);
-    delayMicroseconds(period);
-  }
-  
-  a = a / k;
-  return a;
 }
 
 
@@ -166,14 +158,57 @@ void setup() {
   
   Serial.begin(SERIAL_BAUD);
 
+  // low pass with 1Hz cutoff freq
+  float coeffs[33] = {
+    0.0044,
+    0.0050,
+    0.0065,
+    0.0089,
+    0.0122,
+    0.0162,
+    0.0208,
+    0.0258,
+    0.0310,
+    0.0362,
+    0.0413,
+    0.0460,
+    0.0501,
+    0.0534,
+    0.0559,
+    0.0575,
+    0.0580,
+    0.0575,
+    0.0559,
+    0.0534,
+    0.0501,
+    0.0460,
+    0.0413,
+    0.0362,
+    0.0310,
+    0.0258,
+    0.0208,
+    0.0162,
+    0.0122,
+    0.0089,
+    0.0065,
+    0.0050,
+    0.0044};
+
+  lpfilt.setFilterCoeffs(coeffs);
+  Serial.print("Low Pass Filter Gain: ");
+  Serial.println(lpfilt.getGain());
+
   // 0-4095
   analogReadResolution(ADC_RES_BITS);
+  
+  // hardware average 64 samples
+  analogReadAveraging(64);
 
-  SoftPWMBegin(SOFTPWM_NORMAL);
+  sampleTimer.begin(setSampleUpdateFlag, LOG_INTERVAL*1000);
   
   delay(1000);
 
-  analogWrite(HEATER_PIN, 200);
+  analogWrite(HEATER_PIN, heaterPwm);
 }
 
 
@@ -185,7 +220,6 @@ void loop() {
   if( now - lastTCUpdate > TC_UPDATE_INTERVAL ){
     lastTCUpdate = now;
     updateTC();
-    Input = map(lastTCTemp, 0.0, MAXIMUM_TC_TEMP, 0.0, WindowSize);
   }
   
   if( now - lastCommandCheck > COMMAND_CHECK_INTERVAL ){
@@ -193,28 +227,11 @@ void loop() {
     checkForCommand();
   }
 
-//  if( now - lastHeaterUpdate > HEATER_UPDATE_INTERVAL ){
-//    lastHeaterUpdate = now;
-//    if( heaterStatus  < 2){
-//      digitalWrite(HEATER_PIN, HIGH);
-//      heaterStatus++;
-//    } else {
-//      digitalWrite(HEATER_PIN, LOW);
-//      heaterStatus = 0;
-//    }
-//  }
-  
-  if( heating ){
-    
-    //digitalWrite(HEATER_PIN, HIGH);
-    //SoftPWMSet(HEATER_PIN, heaterStatus);
-    //analogWrite(HEATER_PIN, heaterStatus);
-  } else {
-    //analogWrite(HEATER_PIN, 0);
-    //SoftPWMSet(HEATER_PIN, 0);
-    //if( heaterStatus != 0 ){
-     // heaterStatus = 0;
-    //}
+  if( sampleUpdateFlag ){
+    unsigned int rawOp = analogRead(ADC_PIN_OP_AMP);
+    voltsOp  = (rescaleToVolts(rawOp));
+    voltsOpFilt = lpfilt.processReading(voltsOp);
+    sampleUpdateFlag = false;
   }
 
   if( !loggingActive ) return;
@@ -222,16 +239,14 @@ void loop() {
   if( now - lastLogTime > LOG_INTERVAL ){
   //if( now - lastLogTime > LOG_INTERVAL && heaterStatus == 1 ){  
     lastLogTime = now;
-    unsigned int rawOp  = averageADC(ADC_PIN_OP_AMP, 50, 1000);
-    float voltsOp  = (rescaleToVolts(rawOp));
   
     Serial.print(now);
     Serial.print(",");
-    Serial.print(heaterStatus);
-    Serial.print(",");
-    Serial.print(rawOp);
+    Serial.print(heaterPwm);
     Serial.print(",");
     Serial.print(voltsOp, DEC);
+    Serial.print(",");
+    Serial.print(voltsOpFilt, DEC);
     Serial.print(",");
     Serial.println(lastTCTemp,DEC);
   }

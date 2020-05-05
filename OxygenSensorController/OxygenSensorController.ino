@@ -1,6 +1,3 @@
-#include <SoftPWM.h>
-#include <SoftPWM_timer.h>
-
 /*
   Read oxygen sensor output voltage from opamp and control oxygen sensor heater with
   PID control using a thermocouple.

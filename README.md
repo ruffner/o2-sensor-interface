@@ -18,6 +18,7 @@ You only need teensyduino to *update* code on the microcontroller. To simply mon
 Needed libs from the Arduino library manager
 - Adafruit BusIO
 - Adafruit MAX38155
+- FIR Filter Arduino Library
 
 
 ## Schematic

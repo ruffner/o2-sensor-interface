@@ -18,11 +18,12 @@ You only need teensyduino to *update* code on the microcontroller. To simply mon
 Needed libs from the Arduino library manager
 - Adafruit BusIO
 - Adafruit MAX38155
-- PID (Brett Beauregard's)
 
 
 ## Schematic
-
+Errata: 
+- heater pin to mosfet should be 20 instead of 19 (for pwm capability). jumpered on board for now.
+- 0.1uF cap across opamp input (grey wire). soldered on bottom of board for now.
 <img src="images/schematic.png" width="100%"/>
 
 ## Layout
